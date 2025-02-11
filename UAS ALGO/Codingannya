@@ -1,0 +1,99 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Siswa {
+    String nama;
+    boolean hadir;
+
+    Siswa(String nama) {
+        this.nama = nama;
+        this.hadir = false;
+    }
+
+    void setHadir(boolean hadir) {
+        this.hadir = hadir;
+    }
+
+    @Override
+    public String toString() {
+        return nama + " - " + (hadir ? "Hadir" : "Tidak Hadir");
+    }
+}
+
+public class AbsensiSwimmingSchool {
+    private static ArrayList<Siswa> daftarSiswa = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Tambah Nama Siswa");
+            System.out.println("2. Catat Kehadiran");
+            System.out.println("3. Tampilkan Daftar Kehadiran");
+            System.out.println("4. Keluar");
+            System.out.print("Pilih menu: ");
+            int pilihan = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (pilihan) {
+                case 1:
+                    tambahnamaSiswa();
+                    break;
+                case 2:
+                    catatKehadiran();
+                    break;
+                case 3:
+                    tampilkanKehadiran();
+                    break;
+                case 4:
+                    System.out.println("Keluar dari program.");
+                    return;
+                default:
+                    System.out.println("Pilihan tidak valid.");
+            }
+        }
+    }
+
+    private static void tambahnamaSiswa() {
+        System.out.print("Masukkan nama siswa: ");
+        String nama = scanner.nextLine();
+        daftarSiswa.add(new Siswa(nama));
+        System.out.println("Siswa " + nama + " telah ditambahkan.");
+    }
+
+    private static void catatKehadiran() {
+        if (daftarSiswa.isEmpty()) {
+            System.out.println("Belum ada siswa yang terdaftar.");
+            return;
+        }
+
+        System.out.println("Daftar Siswa:");
+        for (int i = 0; i < daftarSiswa.size(); i++) {
+            System.out.println((i + 1) + ". " + daftarSiswa.get(i).nama);
+        }
+
+        System.out.print("Pilih nomor siswa yang hadir: ");
+        int nomorSiswa = scanner.nextInt();
+        scanner.nextLine();
+
+        if (nomorSiswa < 1 || nomorSiswa > daftarSiswa.size()) {
+            System.out.println("Nomor siswa tidak valid.");
+            return;
+        }
+
+        daftarSiswa.get(nomorSiswa - 1).setHadir(true);
+        System.out.println("Kehadiran siswa " + daftarSiswa.get(nomorSiswa - 1).nama + " telah dicatat.");
+    }
+
+    private static void tampilkanKehadiran() {
+        if (daftarSiswa.isEmpty()) {
+            System.out.println("Belum ada siswa yang terdaftar.");
+            return;
+        }
+
+        System.out.println("Daftar Kehadiran:");
+        for (Siswa siswa : daftarSiswa) {
+            System.out.println(siswa);
+        }
+    }
+}
